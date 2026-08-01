@@ -1,0 +1,16 @@
+{
+  "name": "proyect-k_pop.chat",
+  "version": "1.0.0",
+  "description": "Chat K-Pop con Serverless Function y Vitest",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "vitest",
+    "start": "vercel dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^1.6.1"
+  }
+}
