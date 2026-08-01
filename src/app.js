@@ -1,4 +1,4 @@
-console.log("¡El app.js está vivo y escuchando!");
+console.log("¡El app.js está cargado y listo!");
 
 import { setupChat } from './chat.js';
 
@@ -8,10 +8,22 @@ const views = {
             <h2>Bienvenido a K-Pop Warriors Chat</h2>
             <p>Selecciona a tu guerrera:</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/chat?character=Rumi.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Rumi</a>
-                <a href="/chat?character=MIRA.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Mira</a>
-                <a href="/chat?character=Zoey.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Zoey</a>
-                <a href="/chat?character=Capuchina.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Capuchina</a>
+                <a href="/chat?character=Rumi" data-link class="char-link">
+                    <img src="/images/Rumi.png" alt="Rumi" style="width:100px;">
+                    <p>Rumi</p>
+                </a>
+                <a href="/chat?character=MIRA" data-link class="char-link">
+                    <img src="/images/MIRA.png" alt="MIRA" style="width:100px;">
+                    <p>MIRA</p>
+                </a>
+                <a href="/chat?character=Zoey" data-link class="char-link">
+                    <img src="/images/Zoey.png" alt="Zoey" style="width:100px;">
+                    <p>Zoey</p>
+                </a>
+                <a href="/chat?character=Capuchina" data-link class="char-link">
+                    <img src="/images/Capuchina.png" alt="Capuchina" style="width:100px;">
+                    <p>Capuchina</p>
+                </a>
             </div>
         </div>
     `,
@@ -58,4 +70,3 @@ document.addEventListener('click', (e) => {
 });
 
 render(window.location.pathname);
-1
