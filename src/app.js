@@ -52,10 +52,13 @@ const render = (path) => {
 document.addEventListener('click', (e) => {
     // Buscamos si el elemento clickeado o su padre tienen el atributo data-link
     const link = e.target.closest('[data-link]');
+    // AGREGA ESTA LÍNEA PARA PROBAR
+    console.log("Clic detectado en:", e.target);
     
     if (link) {
         e.preventDefault();
         const href = link.getAttribute('href');
+        console.log("Navegando a:", href);
         navigate(href);
     }
 });
