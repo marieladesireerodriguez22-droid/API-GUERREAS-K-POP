@@ -1,4 +1,4 @@
-console.log("¡El app.js se está ejecutando correctamente!");
+console.log("¡El app.js está vivo y escuchando!");
 
 import { setupChat } from './chat.js';
 
@@ -8,10 +8,10 @@ const views = {
             <h2>Bienvenido a K-Pop Warriors Chat</h2>
             <p>Selecciona a tu guerrera:</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/chat?character=rumi" data-link class="char-link">Rumi</a>
-                <a href="/chat?character=mira" data-link class="char-link">Mira</a>
-                <a href="/chat?character=zoey" data-link class="char-link">Zoey</a>
-                <a href="/chat?character=capuchina" data-link class="char-link">Capuchina</a>
+                <a href="/chat?character=Rumi.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Rumi</a>
+                <a href="/chat?character=MIRA.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Mira</a>
+                <a href="/chat?character=Zoey.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Zoey</a>
+                <a href="/chat?character=Capuchina.png" data-link style="padding: 10px; background: #eee; border: 1px solid #000; cursor: pointer;">Capuchina</a>
             </div>
         </div>
     `,
@@ -28,20 +28,17 @@ const views = {
 const app = document.getElementById('app');
 
 const navigate = (url) => {
-    // Si la URL contiene parámetros, guardamos el personaje
     if (url.includes('?')) {
         const urlParams = new URLSearchParams(url.split('?')[1]);
         const char = urlParams.get('character');
         if (char) sessionStorage.setItem('selectedCharacter', char);
     }
     
-    // Navegamos a la ruta /chat internamente
     window.history.pushState({}, '', '/chat');
     render('/chat');
 };
 
 const render = (path) => {
-    // Limpiamos la ruta por si tiene parámetros
     const cleanPath = path.split('?')[0];
     app.innerHTML = views[cleanPath] || views['/home'];
     
@@ -50,10 +47,8 @@ const render = (path) => {
     }
 };
 
-// Captura de clics para navegación SPA
 document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-link]');
-    
     if (link) {
         e.preventDefault();
         const href = link.getAttribute('href');
@@ -62,5 +57,5 @@ document.addEventListener('click', (e) => {
     }
 });
 
-window.onpopstate = () => render(window.location.pathname);
 render(window.location.pathname);
+1
