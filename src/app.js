@@ -1,5 +1,3 @@
-console.log("¡El app.js está cargado y listo!");
-
 import { setupChat } from './chat.js';
 
 const views = {
@@ -8,19 +6,19 @@ const views = {
             <h2>Bienvenido a K-Pop Warriors Chat</h2>
             <p>Selecciona a tu guerrera:</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/chat?character=Rumi" data-link class="char-link">
+                <a href="/chat?character=rumi" data-link>
                     <img src="/images/Rumi.png" alt="Rumi" style="width:100px;">
                     <p>Rumi</p>
                 </a>
-                <a href="/chat?character=MIRA" data-link class="char-link">
-                    <img src="/images/MIRA.png" alt="MIRA" style="width:100px;">
-                    <p>MIRA</p>
+                <a href="/chat?character=mira" data-link>
+                    <img src="/images/MIRA.png" alt="Mira" style="width:100px;">
+                    <p>Mira</p>
                 </a>
-                <a href="/chat?character=Zoey" data-link class="char-link">
+                <a href="/chat?character=zoey" data-link>
                     <img src="/images/Zoey.png" alt="Zoey" style="width:100px;">
                     <p>Zoey</p>
                 </a>
-                <a href="/chat?character=Capuchina" data-link class="char-link">
+                <a href="/chat?character=capuchina" data-link>
                     <img src="/images/Capuchina.png" alt="Capuchina" style="width:100px;">
                     <p>Capuchina</p>
                 </a>
@@ -37,20 +35,10 @@ const views = {
     `
 };
 
-const app = document.getElementById('app');
-
-const navigate = (url) => {
-    if (url.includes('?')) {
-        const urlParams = new URLSearchParams(url.split('?')[1]);
-        const char = urlParams.get('character');
-        if (char) sessionStorage.setItem('selectedCharacter', char);
-    }
-    
-    window.history.pushState({}, '', '/chat');
-    render('/chat');
-};
-
 const render = (path) => {
+    const app = document.getElementById('app');
+    if (!app) return;
+    
     const cleanPath = path.split('?')[0];
     app.innerHTML = views[cleanPath] || views['/home'];
     
@@ -59,14 +47,25 @@ const render = (path) => {
     }
 };
 
+const navigate = (url) => {
+    if (url.includes('?')) {
+        const urlParams = new URLSearchParams(url.split('?')[1]);
+        const char = urlParams.get('character');
+        if (char) sessionStorage.setItem('selectedCharacter', char);
+    }
+    window.history.pushState({}, '', '/chat');
+    render('/chat');
+};
+
 document.addEventListener('click', (e) => {
     const link = e.target.closest('[data-link]');
     if (link) {
         e.preventDefault();
         const href = link.getAttribute('href');
-        console.log("Navegando a:", href);
         navigate(href);
     }
 });
 
-render(window.location.pathname);
+document.addEventListener('DOMContentLoaded', () => {
+    render(window.location.pathname);
+});
