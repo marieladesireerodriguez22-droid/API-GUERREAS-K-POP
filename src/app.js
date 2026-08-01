@@ -1,4 +1,5 @@
-/* STREAMING_CHUNK:Corrigiendo la detección de clics en enlaces */
+console.log("¡El app.js se está ejecutando correctamente!");
+
 import { setupChat } from './chat.js';
 
 const views = {
@@ -27,19 +28,20 @@ const views = {
 const app = document.getElementById('app');
 
 const navigate = (url) => {
-    // Si la URL contiene parámetros (como ?character=rumi)
+    // Si la URL contiene parámetros, guardamos el personaje
     if (url.includes('?')) {
         const urlParams = new URLSearchParams(url.split('?')[1]);
         const char = urlParams.get('character');
         if (char) sessionStorage.setItem('selectedCharacter', char);
     }
     
-    // Cambiamos a la ruta /chat para el estado interno
+    // Navegamos a la ruta /chat internamente
     window.history.pushState({}, '', '/chat');
     render('/chat');
 };
 
 const render = (path) => {
+    // Limpiamos la ruta por si tiene parámetros
     const cleanPath = path.split('?')[0];
     app.innerHTML = views[cleanPath] || views['/home'];
     
@@ -48,12 +50,9 @@ const render = (path) => {
     }
 };
 
-/* STREAMING_CHUNK:Captura global de clics mejorada */
+// Captura de clics para navegación SPA
 document.addEventListener('click', (e) => {
-    // Buscamos si el elemento clickeado o su padre tienen el atributo data-link
     const link = e.target.closest('[data-link]');
-    // AGREGA ESTA LÍNEA PARA PROBAR
-    console.log("Clic detectado en:", e.target);
     
     if (link) {
         e.preventDefault();
