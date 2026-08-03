@@ -19,7 +19,7 @@ const views = {
                     <p>Zoey</p>
                 </div>
                 <div class="char-card" data-char="Capuchina" style="cursor: pointer; text-align: center; border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
-                    <img src="./images/Capuchina.png" alt="Capuchina" style="width:100px; display: block; margin: 0 auto;">
+                    <img src="./images/Capuchina..png" alt="Capuchina" style="width:100px; display: block; margin: 0 auto;">
                     <p>Capuchina</p>
                 </div>
             </div>
