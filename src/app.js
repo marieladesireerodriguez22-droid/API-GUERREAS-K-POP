@@ -6,20 +6,20 @@ const views = {
             <h2>Bienvenido a K-Pop Warriors Chat</h2>
             <p>Selecciona a tu guerrera:</p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="/chat?character=Rumi" data-link>
-                    <img src="/images/Rumi.png" alt="Rumi" style="width:100px;">
+                <a href="/chat?character=Rumi" data-link style="text-decoration: none; color: inherit; text-align: center;">
+                    <img src="/images/Rumi.png" alt="Rumi" style="width:100px; display: block; margin: 0 auto;">
                     <p>Rumi</p>
                 </a>
-                <a href="/chat?character=Mira" data-link>
-                    <img src="/images/MIRA.png" alt="Mira" style="width:100px;">
+                <a href="/chat?character=Mira" data-link style="text-decoration: none; color: inherit; text-align: center;">
+                    <img src="/images/MIRA.png" alt="Mira" style="width:100px; display: block; margin: 0 auto;">
                     <p>Mira</p>
                 </a>
-                <a href="/chat?character=Zoey" data-link>
-                    <img src="/images/Zoey.png" alt="Zoey" style="width:100px;">
+                <a href="/chat?character=Zoey" data-link style="text-decoration: none; color: inherit; text-align: center;">
+                    <img src="/images/Zoey.png" alt="Zoey" style="width:100px; display: block; margin: 0 auto;">
                     <p>Zoey</p>
                 </a>
-                <a href="/chat?character=Capuchina" data-link>
-                    <img src="/images/Capuchina.png" alt="Capuchina" style="width:100px;">
+                <a href="/chat?character=Capuchina" data-link style="text-decoration: none; color: inherit; text-align: center;">
+                    <img src="/images/Capuchina.png" alt="Capuchina" style="width:100px; display: block; margin: 0 auto;">
                     <p>Capuchina</p>
                 </a>
             </div>
@@ -48,7 +48,6 @@ const render = (path, search = '') => {
     const cleanPath = path.split('?')[0];
     app.innerHTML = views[cleanPath] || views['/home'];
     
-    // Procesar parámetros de URL (ej: ?character=Rumi) tanto de la navegación como de la búsqueda actual
     const queryString = search || window.location.search;
     if (queryString) {
         const urlParams = new URLSearchParams(queryString);
@@ -78,9 +77,8 @@ const navigate = (url) => {
     render(path, search ? '?' + search : '');
 };
 
-// Manejo de clics para la SPA usando History API
 document.addEventListener('click', (e) => {
-    const link = e.target.closest('[data-link]');
+    const link = e.target.closest('a[data-link]');
     if (link) {
         e.preventDefault();
         const href = link.getAttribute('href');
@@ -88,7 +86,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Manejo de los botones de navegación del navegador (Back / Forward)
 window.addEventListener('popstate', () => {
     render(window.location.pathname, window.location.search);
 });
