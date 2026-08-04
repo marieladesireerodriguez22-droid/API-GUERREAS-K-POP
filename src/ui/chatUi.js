@@ -1,16 +1,6 @@
-// Lógica para enviar mensajes a la API de forma aislada para poder testearla
-export async function sendMessage(message, character = 'Rumi') {
-    const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, character })
-    });
-    
-    if (!response.ok) throw new Error('Error en el servidor');
-    return await response.json();
-}
+// src/ui/chatUi.js
+import { sendMessage } from '../services/geminiApi.js';
 
-// Función que inicializa los eventos del chat en la interfaz
 export function setupChat() {
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
@@ -43,7 +33,7 @@ export function setupChat() {
     });
 }
 
-function appendMessage(text, className) {
+export function appendMessage(text, className) {
     const chatContainer = document.getElementById('chat-container');
     if (!chatContainer) return;
 
@@ -84,7 +74,7 @@ function appendMessage(text, className) {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-function showTypingIndicator() {
+export function showTypingIndicator() {
     const chatContainer = document.getElementById('chat-container');
     if (!chatContainer) return;
 
@@ -104,7 +94,7 @@ function showTypingIndicator() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-function removeTypingIndicator() {
+export function removeTypingIndicator() {
     const typingDiv = document.getElementById('typing-indicator');
     if (typingDiv) typingDiv.remove();
 }

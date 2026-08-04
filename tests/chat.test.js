@@ -1,6 +1,6 @@
 /* STREAMING_CHUNK:Actualizando la prueba para validar la estructura del objeto de respuesta */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { sendMessage } from '../src/chat.js'; 
+import { sendMessage } from '../src/services/geminiApi.js';
 
 describe('Integración con API de IA (Chat)', () => {
     beforeEach(() => {
