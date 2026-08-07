@@ -1,7 +1,7 @@
 export function renderHome() {
     return `
         <div class="view" style="text-align: center; padding: 20px;">
-            <h2>Bienvenido a K-Pop Warriors Chat</h2>
+            <h2>Bienvenido a las Guerreras K-Pop Chat</h2>
             <p>Selecciona a tu guerrera:</p>
             <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
                 
