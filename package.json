@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "vitest": "^1.6.1"
+  },
+  "dependencies": {
+    "@google/genai": "^2.16.0"
   }
 }
