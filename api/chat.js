@@ -1,4 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
@@ -28,10 +29,9 @@ export default async function handler(req, res) {
 
         const response = await ai.models.generateContent({
             model: 'gemini-1.5-flash',
-            contents: message,
-            config: {
-                systemInstruction: systemInstruction,
-            }
+            contents: [
+                { role: 'user', parts: [{ text: systemInstruction + "\n\nMensaje del usuario: " + message }] }
+            ]
         });
 
         const reply = response.text;
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ reply });
 
     } catch (error) {
-        console.error('Error al conectar con Gemini:', error);
-        return res.status(500).json({ error: 'Error interno del servidor al procesar el mensaje.' });
+        console.error('Error detallado:', error);
+        return res.status(500).json({ error: error.message || 'Error interno del servidor.' });
     }
 }
