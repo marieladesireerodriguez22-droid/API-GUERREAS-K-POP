@@ -1,5 +1,3 @@
-import { GoogleGenAI } from '@google/genai';
-
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
@@ -13,8 +11,6 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'El mensaje es requerido' });
         }
 
-        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
         let systemInstruction = "Eres una guerrera K-pop defensora de la luz.";
         
         if (character === 'Rumi') {
@@ -27,20 +23,31 @@ export default async function handler(req, res) {
             systemInstruction = "Eres Capuchina, una elegante bailarina con cabeza de taza de café y espía táctica. Eres sofisticada, de disciplina férrea y hablas con gracia, mencionando sutilmente temas de danza y energía reconfortante, con respuestas cortas.";
         }
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: message,
-            config: {
-                systemInstruction: systemInstruction,
-            }
+        const apiKey = process.env.GEMINI_API_KEY;
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: message }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            })
         });
 
-        const reply = response.text;
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error('Error de la API de Gemini:', data);
+            return res.status(500).json({ error: 'Error al comunicarse con Gemini' });
+        }
+
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No he podido responder.";
 
         return res.status(200).json({ reply });
 
     } catch (error) {
-        console.error('Error al conectar con Gemini:', error);
+        console.error('Error interno:', error);
         return res.status(500).json({ error: 'Error interno del servidor al procesar el mensaje.' });
     }
 }
