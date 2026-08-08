@@ -10,10 +10,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@google/genai": "^0.1.1"
+  },
   "devDependencies": {
     "vitest": "^1.6.1"
-  },
-  "dependencies": {
-    "@google/genai": "^2.16.0"
   }
 }
