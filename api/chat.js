@@ -27,14 +27,17 @@ export default async function handler(req, res) {
             systemInstruction = "Eres Capuchina, una elegante bailarina con cabeza de taza de café y espía táctica. Eres sofisticada, de disciplina férrea y hablas con gracia, mencionando sutilmente temas de danza y energía reconfortante, con respuestas cortas.";
         }
 
+        // Llamada corregida utilizando la estructura oficial de la API
         const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
-            contents: [
-                { role: 'user', parts: [{ text: systemInstruction + "\n\nMensaje del usuario: " + message }] }
-            ]
+            model: 'gemini-2.5-flash', // Usamos el modelo estándar actual
+            contents: message,
+            config: {
+                systemInstruction: systemInstruction,
+            }
         });
 
-        const reply = response.text;
+        // Aseguramos la extracción segura del texto de la respuesta
+        const reply = response.text || (response.candidates && response.candidates[0]?.content?.parts[0]?.text) || "¡Hmpf! No pude procesar la respuesta.";
 
         return res.status(200).json({ reply });
 
