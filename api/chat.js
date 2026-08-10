@@ -1,8 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 
 export default async function handler(req, res) {
+    // Permitir solo peticiones POST
     if (req.method !== 'POST') {
-        res.setHeader('Allow', ['POST']);
         return res.status(405).json({ error: 'Método no permitido' });
     }
 
@@ -10,7 +10,11 @@ export default async function handler(req, res) {
         const { message, character } = req.body;
 
         if (!message) {
-            return res.status(400).json({ error: 'El mensaje es requerido' });
+            return res.status(400).json({ error: 'El mensaje es obligatorio' });
+        }
+
+        if (!process.env.GEMINI_API_KEY) {
+            return res.status(500).json({ error: 'Falta configurar GEMINI_API_KEY en el servidor' });
         }
 
         const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
@@ -29,7 +33,7 @@ export default async function handler(req, res) {
 
         // Llamada corregida utilizando la estructura oficial de la API
         const response = await ai.models.generateContent({
-            model: model: 'gemini-1.5-flash',
+            model: 'gemini-1.5-flash',
             contents: message,
             config: {
                 systemInstruction: systemInstruction,
