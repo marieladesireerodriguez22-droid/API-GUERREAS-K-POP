@@ -1,27 +1,79 @@
 // src/ui/chatUi.js
 import { sendMessage } from '../services/geminiApi.js';
 
+// Obtiene la clave única de localStorage según el personaje actual
+function getStorageKey() {
+    const character = sessionStorage.getItem('selectedCharacter') || 'Rumi';
+    return `chat_history_${character}`;
+}
+
+// Carga el historial guardado en localStorage
+function loadHistory() {
+    const chatContainer = document.getElementById('chat-container');
+    if (!chatContainer) return;
+    
+    chatContainer.innerHTML = '';
+    const historyJson = localStorage.getItem(getStorageKey());
+    
+    if (historyJson) {
+        try {
+            const history = JSON.parse(historyJson);
+            history.forEach(msg => {
+                appendMessageToDOM(msg.text, msg.className, msg.time, false);
+            });
+        } catch (e) {
+            console.error("Error al cargar el historial", e);
+        }
+    }
+}
+
+// Guarda un mensaje en el localStorage del personaje
+function saveMessageToStorage(text, className, time) {
+    const key = getStorageKey();
+    const historyJson = localStorage.getItem(key);
+    let history = historyJson ? JSON.parse(historyJson) : [];
+    
+    history.push({ text, className, time });
+    localStorage.setItem(key, JSON.stringify(history));
+}
+
 export function setupChat() {
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
+    const clearBtn = document.getElementById('clear-chat-btn');
+    
     if (!sendBtn || !messageInput) return;
+
+    // Cargar el historial correspondiente al personaje al entrar a la sala
+    loadHistory();
+
+    // Botón para limpiar el chat a voluntad
+    if (clearBtn) {
+        clearBtn.onclick = () => {
+            if (confirm("¿Estás segura de que quieres borrar el historial de esta charla?")) {
+                localStorage.removeItem(getStorageKey());
+                const chatContainer = document.getElementById('chat-container');
+                if (chatContainer) chatContainer.innerHTML = '';
+            }
+        };
+    }
 
     const handleSendMessage = async () => {
         const text = messageInput.value.trim();
         if (!text) return;
 
-        appendMessage(text, 'user-message');
+        const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        appendMessage(text, 'user-message', timeNow);
         messageInput.value = '';
         showTypingIndicator();
 
-        try {
-            const data = await sendMessage(text, sessionStorage.getItem('selectedCharacter') || 'Rumi');
-            removeTypingIndicator();
-            appendMessage(data.reply, 'bot-message');
-        } catch (error) {
-            removeTypingIndicator();
-            appendMessage('¡Hmpf! No me pude conectar con el servidor.', 'bot-message');
-        }
+        const currentCharacter = sessionStorage.getItem('selectedCharacter') || 'Rumi';
+        const data = await sendMessage(text, currentCharacter);
+        
+        removeTypingIndicator();
+        const replyTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        appendMessage(data.reply, 'bot-message', replyTime);
     };
 
     sendBtn.addEventListener('click', handleSendMessage);
@@ -33,7 +85,19 @@ export function setupChat() {
     });
 }
 
-export function appendMessage(text, className) {
+// Función pública para añadir y opcionalmente guardar mensajes
+export function appendMessage(text, className, customTime = null, save = true) {
+    const time = customTime || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+    appendMessageToDOM(text, className, time, true);
+
+    if (save) {
+        saveMessageToStorage(text, className, time);
+    }
+}
+
+// Renderiza visualmente el mensaje en el DOM
+function appendMessageToDOM(text, className, time, scrollToBottom = true) {
     const chatContainer = document.getElementById('chat-container');
     if (!chatContainer) return;
 
@@ -46,8 +110,7 @@ export function appendMessage(text, className) {
     messageDiv.appendChild(textP);
 
     const timeSpan = document.createElement('span');
-    const now = new Date();
-    timeSpan.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    timeSpan.textContent = time;
     timeSpan.style.display = 'block';
     timeSpan.style.fontSize = '0.7rem';
     timeSpan.style.marginTop = '4px';
@@ -71,7 +134,9 @@ export function appendMessage(text, className) {
     }
 
     chatContainer.appendChild(messageDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    if (scrollToBottom) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 }
 
 export function showTypingIndicator() {
