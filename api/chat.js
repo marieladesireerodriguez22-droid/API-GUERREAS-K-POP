@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
         // Llamada corregida utilizando la estructura oficial de la API
         const response = await ai.models.generateContent({
-            model: 'gemini-2.0-flash',
+            model: 'models/gemini-1.5-flash',
             contents: message,
             config: {
                 systemInstruction: systemInstruction,
