@@ -74,4 +74,4 @@ Redactar y optimizar los system prompts de los diferentes personajes (Rumi, Mira
 
 Configurar correctamente las Serverless Functions en Vercel para proteger la clave de la API en el servidor.
 
-Desarrollar y depurar los tests unitarios utilizando Vitest...
+Desarrollar y depurar los tests unitarios utilizando Vitest.
