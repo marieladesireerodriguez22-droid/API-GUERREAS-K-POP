@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
     // Permitir solo peticiones POST
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Falta configurar GEMINI_API_KEY en el servidor' });
         }
 
-        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
         let systemInstruction = "Eres una guerrera K-pop defensora de la luz.";
         
@@ -31,15 +31,22 @@ export default async function handler(req, res) {
             systemInstruction = "Eres Capuchina, una elegante bailarina con cabeza de taza de café y espía táctica. Eres sofisticada, de disciplina férrea y hablas con gracia, mencionando sutilmente temas de danza y energía reconfortante, con respuestas cortas.";
         }
 
-        const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
-            contents: message,
-            config: {
-                systemInstruction: systemInstruction,
-            }
+        const model = genAI.getGenerativeModel({
+            model: 'gemini-3.1-flash-lite',
+            systemInstruction: systemInstruction
         });
 
-        const reply = response.text || (response.candidates && response.candidates[0]?.content?.parts[0]?.text) || "¡Hmpf! No pude procesar la respuesta.";
+        const response = await model.generateContent(message);
+
+        let reply = "¡Hmpf! No pude procesar la respuesta.";
+        try {
+            reply = response.response.text();
+        } catch (e) {
+            console.error('Error extrayendo texto:', e);
+            if (response?.response?.candidates?.[0]?.content?.parts?.[0]?.text) {
+                reply = response.response.candidates[0].content.parts[0].text;
+            }
+        }
 
         return res.status(200).json({ reply });
 
