@@ -15,30 +15,39 @@ La aplicación cuenta con una galería interactiva que permite elegir entre dist
 
 ## 🛠️ Tecnologías y Características
 * **HTML5, CSS3 y JavaScript (ES Modules):** Arquitectura modular basada en vistas y componentes.
-* **SPA & History API:** Enrutamiento dinámico sin recargas de página (`/home`, `/chat`, `/about`).
+* **SPA & History API:** Enrutamiento dinámico sin recargas de página (`/home`, `/chat`, `/about`), incluyendo manejo de rutas no encontradas (Vista 404 personalizada).
 * **Vercel Serverless Functions:** Conexión segura con la API de Google Gemini en el backend para evitar exponer credenciales.
+* **Historial Persistente:** Almacenamiento independiente de la conversación para cada guerrera en el `localStorage`, con opción de limpieza a voluntad.
 * **Vitest:** Suite de pruebas unitarias para validar la lógica del sistema.
 * **Responsive Design:** Diseño mobile-first adaptado para celulares, tablets y desktop.
 
 ## ⚙️ Configuración y Ejecución Local
 
+Para levantar este proyecto en tu entorno local de manera correcta, sigue estos pasos:
+
 1. **Clonar el repositorio:**
    ```bash
    git clone [https://github.com/marieladesireerodriguez22-droid/API-GUERREAS-K-POP.git](https://github.com/marieladesireerodriguez22-droid/API-GUERREAS-K-POP.git)
    cd API-GUERREAS-K-POP
-   Instalar las dependencias:
+Instalar las dependencias del proyecto:
 
 Bash
 npm install
+Instalar Vercel CLI de forma global (necesario para ejecutar las Serverless Functions localmente):
+
+Bash
+npm install -g vercel
 Configurar las variables de entorno:
 
-Crea un archivo .env en la raíz del proyecto tomando como referencia el archivo .env.example.
+Crea un archivo llamado exactamente .env en la raíz del proyecto (puedes guiarte del archivo .env.example).
 
-Añade tu clave de la API de Gemini:
+Añade tu clave secreta de la API de Gemini con el siguiente formato:
 
 Fragmento de código
 GEMINI_API_KEY=tu_api_key_aqui
-Ejecutar en entorno de desarrollo local:
+Ejecutar el entorno de desarrollo local con Vercel:
+
+Usa el comando de Vercel para levantar tanto el frontend como la Serverless Function en conjunto:
 
 Bash
 vercel dev
@@ -50,22 +59,17 @@ npm test
 🚀 Cómo Desplegar a Vercel
 Conecta tu repositorio de GitHub a tu cuenta de Vercel.
 
-En la configuración del proyecto en Vercel, ve a la sección de Environment Variables y añade:
+En la configuración del proyecto en el panel de Vercel, dirígete a la sección Environment Variables y añade:
 
 Name: GEMINI_API_KEY
 
 Value: Tu clave secreta de la API de Gemini.
 
-Realiza el despliegue automático conectado a tu rama principal.
+Realiza el despliegue conectado a tu rama principal.
 
-📱 Capturas de Pantalla
-(Puedes agregar aquí o en una carpeta de imágenes las capturas de tu aplicación funcionando en móvil y desktop)
+📱 Capturas de Pantalla: (Disponibles en el repositorio / probadas en dispositivos móviles y desktop).
 
-Vista Home / Galería: [Insertar imagen]
-
-Vista de Chat: [Insertar imagen]
-
-🤖 Registro del Uso de AI en el Proyecto
+🤖 Registro del Uso de AI en el Proyecto:
 Durante el desarrollo de esta aplicación, se utilizó Inteligencia Artificial como herramienta de apoyo y consulta para:
 
 Diseñar la estructura modular del código (separación de vistas, enrutador con History API y servicios de API).
