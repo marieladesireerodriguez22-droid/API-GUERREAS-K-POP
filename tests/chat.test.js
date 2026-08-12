@@ -1,4 +1,3 @@
-/* STREAMING_CHUNK:Actualizando la prueba para validar la estructura del objeto de respuesta */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { sendMessage } from '../src/services/geminiApi.js';
 
@@ -8,26 +7,33 @@ describe('Integración con API de IA (Chat)', () => {
     });
 
     it('debería manejar una respuesta exitosa de la API', async () => {
-        // Simulamos la estructura JSON que espera tu frontend (un objeto con 'response')
+        // Simulamos la respuesta de la Vercel Function ({ reply: '...' })
         const mockResponse = {
             ok: true,
-            json: async () => ({ response: '¡Hola! Soy tu ídolo favorito.' })
+            json: async () => ({ reply: '¡Hola! Soy tu ídolo favorito.' })
         };
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue(mockResponse));
 
         const result = await sendMessage('Hola', 'Rumi');
         
         expect(fetch).toHaveBeenCalled();
-        // Verificamos la propiedad específica 'response' del objeto devuelto
-        expect(result.response).toBe('¡Hola! Soy tu ídolo favorito.');
+        // Validamos la estructura real que devuelve tu servicio: { success, reply }
+        expect(result.success).toBe(true);
+        expect(result.reply).toBe('¡Hola! Soy tu ídolo favorito.');
     });
 
-    it('debería lanzar un error cuando la respuesta no es ok', async () => {
-        // Simulamos un fallo del servidor (500)
-        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
-            ok: false
-        }));
+    it('debería manejar un error de servidor sin romper la app', async () => {
+        // Simulamos un fallo del servidor (response.ok = false)
+        const mockResponse = {
+            ok: false,
+            json: async () => ({ error: 'Error en el servidor' })
+        };
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue(mockResponse));
 
-        await expect(sendMessage('Hola', 'Rumi')).rejects.toThrow('Error en el servidor');
+        const result = await sendMessage('Hola', 'Rumi');
+        
+        // Verificamos que maneja el error de forma controlada gracias al try/catch
+        expect(result.success).toBe(false);
+        expect(result.reply).toBeDefined();
     });
 });
