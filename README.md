@@ -46,7 +46,6 @@ Añade tu clave secreta de la API de Gemini con el siguiente formato:
 Fragmento de código
 GEMINI_API_KEY=tu_api_key_aqui
 Ejecutar el entorno de desarrollo local con Vercel:
-
 Usa el comando de Vercel para levantar tanto el frontend como la Serverless Function en conjunto:
 
 Bash
@@ -67,9 +66,16 @@ Value: Tu clave secreta de la API de Gemini.
 
 Realiza el despliegue conectado a tu rama principal.
 
-📱 Capturas de Pantalla: (Disponibles en el repositorio / probadas en dispositivos móviles y desktop).
+📱 Capturas de Pantalla de la Aplicación
+A continuación se muestran las vistas principales de la aplicación funcionando:
 
-🤖 Registro del Uso de AI en el Proyecto:
+1. Vista Principal (Selección de Personajes):
+Se observa la navegación (Home, Chat, About) y las tarjetas de las cuatro guerreras K-Pop.
+
+2. Vista de Chat en Funcionamiento:
+Se muestra la conversación activa con el personaje 'Rumi', incluyendo la interfaz de chat, la respuesta de la IA y la barra de entrada de texto.
+
+🤖 Registro del Uso de AI en el Proyecto
 Durante el desarrollo de esta aplicación, se utilizó Inteligencia Artificial como herramienta de apoyo y consulta para:
 
 Diseñar la estructura modular del código (separación de vistas, enrutador con History API y servicios de API).
@@ -79,6 +85,3 @@ Redactar y optimizar los system prompts de los diferentes personajes (Rumi, Mira
 Configurar correctamente las Serverless Functions en Vercel para proteger la clave de la API en el servidor.
 
 Desarrollar y depurar los tests unitarios utilizando Vitest.
-## 📱 Demostración de la Aplicación (Video)
-Puedes ver el funcionamiento completo de la SPA, la navegación y el chat con las guerreras de K-Pop en el siguiente archivo de video guardado en el repositorio:
-* **Video demostrativo:** [Compartir pantalla - 2026-08-12 21_34_41.mp4](./Compartir%20pantalla%20-%202026-08-12%2021_34_41.mp4)
