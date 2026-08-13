@@ -79,3 +79,6 @@ Redactar y optimizar los system prompts de los diferentes personajes (Rumi, Mira
 Configurar correctamente las Serverless Functions en Vercel para proteger la clave de la API en el servidor.
 
 Desarrollar y depurar los tests unitarios utilizando Vitest.
+## 📱 Demostración de la Aplicación (Video)
+Puedes ver el funcionamiento completo de la SPA, la navegación y el chat con las guerreras de K-Pop en el siguiente archivo de video guardado en el repositorio:
+* **Video demostrativo:** [Compartir pantalla - 2026-08-12 21_34_41.mp4](./Compartir%20pantalla%20-%202026-08-12%2021_34_41.mp4)
