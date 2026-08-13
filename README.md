@@ -66,7 +66,7 @@ Value: Tu clave secreta de la API de Gemini.
 
 Realiza el despliegue conectado a tu rama principal.
 
-📱 Capturas de Pantalla de la Aplicación
+📱 Capturas de Pantalla de la Aplicación (en la carpeta assets estan las imagenes)
 A continuación se muestran las vistas principales de la aplicación funcionando:
 
 1. Vista Principal (Selección de Personajes):
